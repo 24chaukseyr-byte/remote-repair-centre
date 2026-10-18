@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}New Repair Request - Remote Mobile Repair Centre{% endblock %}
+{% block content %}
+<h1>Book a repair</h1>
+<form method="post" novalidate class="card">
+  <label for="brand">Brand</label>
+  <select id="brand" name="brand">
+    <option value="">-- Select brand --</option>
+    {% for b in brands %}
+      <option value="{{ b }}" {% if form.get('brand') == b %}selected{% endif %}>{{ b }}</option>
+    {% endfor %}
+  </select>
+  {% if errors.get('brand') %}<div class="error">{{ errors['brand'] }}</div>{% endif %}
+
+  <label for="model">Model</label>
+  <input id="model" name="model" type="text" value="{{ form.get('model', '') }}">
+  {% if errors.get('model') %}<div class="error">{{ errors['model'] }}</div>{% endif %}
+
+  <label for="imei">IMEI (15 digits)</label>
+  <input id="imei" name="imei" type="text" value="{{ form.get('imei', '') }}">
+  {% if errors.get('imei') %}<div class="error">{{ errors['imei'] }}</div>{% endif %}
+
+  <label for="issue_type">Issue type</label>
+  <select id="issue_type" name="issue_type">
+    <option value="">-- Select issue --</option>
+    {% for i in issue_types %}
+      <option value="{{ i }}" {% if form.get('issue_type') == i %}selected{% endif %}>{{ i }}</option>
+    {% endfor %}
+  </select>
+  {% if errors.get('issue_type') %}<div class="error">{{ errors['issue_type'] }}</div>{% endif %}
+
+  <label for="description">Describe the problem (10 to 300 characters)</label>
+  <textarea id="description" name="description" rows="4">{{ form.get('description', '') }}</textarea>
+  {% if errors.get('description') %}<div class="error">{{ errors['description'] }}</div>{% endif %}
+
+  <label for="pickup_date">Pickup date</label>
+  <input id="pickup_date" name="pickup_date" type="date" value="{{ form.get('pickup_date', '') }}">
+  <div class="hint">From {{ min_date }} to {{ max_date }}.</div>
+  {% if errors.get('pickup_date') %}<div class="error">{{ errors['pickup_date'] }}</div>{% endif %}
+
+  <label for="pickup_address">Pickup address (10 to 200 characters)</label>
+  <textarea id="pickup_address" name="pickup_address" rows="3">{{ form.get('pickup_address', '') }}</textarea>
+  {% if errors.get('pickup_address') %}<div class="error">{{ errors['pickup_address'] }}</div>{% endif %}
+
+  <button type="submit">Submit request</button>
+</form>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Register - Remote Mobile Repair Centre{% endblock %}
+{% block content %}
+<h1>Create your account</h1>
+<form method="post" novalidate class="card">
+  <label for="full_name">Full name</label>
+  <input id="full_name" name="full_name" type="text" value="{{ form.get('full_name', '') }}">
+  {% if errors.get('full_name') %}<div class="error">{{ errors['full_name'] }}</div>{% endif %}
+
+  <label for="email">Email</label>
+  <input id="email" name="email" type="text" value="{{ form.get('email', '') }}">
+  {% if errors.get('email') %}<div class="error">{{ errors['email'] }}</div>{% endif %}
+
+  <label for="phone">Phone (10 digits)</label>
+  <input id="phone" name="phone" type="text" value="{{ form.get('phone', '') }}">
+  {% if errors.get('phone') %}<div class="error">{{ errors['phone'] }}</div>{% endif %}
+
+  <label for="password">Password</label>
+  <input id="password" name="password" type="password">
+  <div class="hint">8 to 20 characters: uppercase, lowercase, digit and special character.</div>
+  {% if errors.get('password') %}<div class="error">{{ errors['password'] }}</div>{% endif %}
+
+  <label for="confirm_password">Confirm password</label>
+  <input id="confirm_password" name="confirm_password" type="password">
+  {% if errors.get('confirm_password') %}<div class="error">{{ errors['confirm_password'] }}</div>{% endif %}
+
+  <button type="submit">Register</button>
+  <p class="hint">Already registered? <a href="{{ url_for('login') }}">Log in</a></p>
+</form>
+{% endblock %}

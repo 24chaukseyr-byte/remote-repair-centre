@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - Remote Mobile Repair Centre{% endblock %}
+{% block content %}
+<h1>Welcome, {{ g.user.full_name }}</h1>
+<p class="hint">Signed in as {{ g.user.email }}</p>
+
+<div class="stats">
+  <div class="stat"><span class="num">{{ counts.get('Submitted', 0) }}</span> Submitted</div>
+  <div class="stat"><span class="num">{{ counts.get('Cancelled', 0) }}</span> Cancelled</div>
+</div>
+
+<p>
+  <a class="btn" href="{{ url_for('new_request') }}">Book a repair</a>
+  <a class="btn secondary" href="{{ url_for('my_requests') }}">View my requests</a>
+</p>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Login - Remote Mobile Repair Centre{% endblock %}
+{% block content %}
+<h1>Log in</h1>
+<form method="post" novalidate class="card">
+  <label for="email">Email</label>
+  <input id="email" name="email" type="text" value="{{ form.get('email', '') }}">
+
+  <label for="password">Password</label>
+  <input id="password" name="password" type="password">
+
+  <button type="submit">Log in</button>
+  <p class="hint">New here? <a href="{{ url_for('register') }}">Create an account</a></p>
+</form>
+{% endblock %}

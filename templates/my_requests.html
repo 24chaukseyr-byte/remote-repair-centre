@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}My Requests - Remote Mobile Repair Centre{% endblock %}
+{% block content %}
+<h1>My repair requests</h1>
+
+{% if requests %}
+<table>
+  <thead>
+    <tr>
+      <th>Request ID</th><th>Device</th><th>IMEI</th><th>Issue</th>
+      <th>Pickup date</th><th>Status</th><th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for r in requests %}
+    <tr>
+      <td>{{ r['request_id'] }}</td>
+      <td>{{ r['brand'] }} {{ r['model'] }}</td>
+      <td>{{ r['imei'] }}</td>
+      <td>{{ r['issue_type'] }}<br><small>{{ r['description'] }}</small></td>
+      <td>{{ r['pickup_date'] }}</td>
+      <td><span class="badge {{ r['status']|lower }}">{{ r['status'] }}</span></td>
+      <td>
+        {% if r['status'] == 'Submitted' %}
+        <form method="post" action="{{ url_for('cancel_request', request_id=r['request_id']) }}" class="inline">
+          <button type="submit" class="danger">Cancel</button>
+        </form>
+        {% else %}-{% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="hint">You have no repair requests yet. <a href="{{ url_for('new_request') }}">Book one now</a>.</p>
+{% endif %}
+{% endblock %}
