@@ -10,7 +10,7 @@ from datetime import date, datetime, timedelta
 BRANDS = ["Samsung", "Apple", "Xiaomi", "OnePlus", "Realme", "Oppo", "Vivo", "Motorola", "Other"]
 ISSUE_TYPES = ["Screen", "Battery", "Charging port", "Water damage", "Software", "Other"]
 
-_EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$")
+_EMAIL_RE = re.compile(r"[A-Za-z0-9]+([._%+-][A-Za-z0-9]+)*@([A-Za-z0-9]+(-[A-Za-z0-9]+)*\.)+[A-Za-z]{2,}")
 _NAME_RE = re.compile(r"^[A-Za-z ]+$")
 _PHONE_RE = re.compile(r"^[6-9][0-9]{9}$")
 _IMEI_RE = re.compile(r"^[0-9]{15}$")
@@ -31,7 +31,7 @@ def validate_name(name):
 def validate_email(email):
     """Valid email format, at most 100 characters."""
     email = _clean(email)
-    return len(email) <= 100 and bool(_EMAIL_RE.match(email))
+    return len(email) <= 100 and bool(_EMAIL_RE.fullmatch(email))
 
 
 def validate_phone(phone):

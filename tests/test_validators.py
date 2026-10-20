@@ -154,3 +154,7 @@ def test_TC19_valid_request_form_has_no_errors():
 def test_empty_request_form_flags_every_field():
     assert set(validate_request({})) == {"brand", "model", "imei", "issue_type",
                                          "description", "pickup_date", "pickup_address"}
+
+@pytest.mark.parametrize("email", ["a..b@test.com", "a@test..com", ".a@test.com", "a.@test.com", "a@-test.com"])
+def test_regression_malformed_email_rejected(email):
+    assert validate_email(email) is False
