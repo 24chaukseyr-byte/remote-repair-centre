@@ -36,7 +36,7 @@ def validate_email(email):
 
 def validate_phone(phone):
     """Exactly 10 digits, first digit 6, 7, 8 or 9."""
-    return bool(_PHONE_RE.match(phone or ""))
+    return bool(_PHONE_RE.fullmatch(phone or ""))
 
 
 def validate_password(password):
@@ -68,7 +68,7 @@ def validate_model(model):
 
 def validate_imei(imei):
     """Exactly 15 digits."""
-    return bool(_IMEI_RE.match(imei or ""))
+    return bool(_IMEI_RE.fullmatch(imei or ""))
 
 
 def validate_issue_type(issue_type):

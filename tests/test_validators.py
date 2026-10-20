@@ -158,3 +158,7 @@ def test_empty_request_form_flags_every_field():
 @pytest.mark.parametrize("email", ["a..b@test.com", "a@test..com", ".a@test.com", "a.@test.com", "a@-test.com"])
 def test_regression_malformed_email_rejected(email):
     assert validate_email(email) is False
+    
+def test_regression_trailing_newline_rejected():
+    assert validate_phone("9876543210\n") is False
+    assert validate_imei("123456789012345\n") is False
