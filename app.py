@@ -65,6 +65,8 @@ def create_app(test_config=None):
 
     @app.route("/register", methods=["GET", "POST"])
     def register():
+        if g.user:
+            return redirect(url_for("dashboard"))
         if request.method == "GET":
             return render_template("register.html", errors={}, form={})
 
@@ -99,6 +101,8 @@ def create_app(test_config=None):
 
     @app.route("/login", methods=["GET", "POST"])
     def login():
+        if g.user:
+            return redirect(url_for("dashboard"))
         if request.method == "GET":
             return render_template("login.html", form={})
 

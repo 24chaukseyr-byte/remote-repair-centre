@@ -265,3 +265,10 @@ def test_TC36_request_linked_to_logged_in_user(client, db_path):
     user_id = conn.execute("SELECT id FROM users WHERE email = ?", ("rahul@test.com",)).fetchone()[0]
     owner = conn.execute("SELECT user_id FROM repair_requests WHERE request_id = 'REQ-0001'").fetchone()[0]
     assert owner == user_id
+
+@pytest.mark.parametrize("path", ["/login", "/register"])
+def test_regression_logged_in_user_redirected_from_auth_pages(client, path):
+    logged_in(client)
+    response = client.get(path)
+    assert response.status_code == 302
+    assert "/dashboard" in response.headers["Location"]
