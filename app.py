@@ -157,6 +157,13 @@ def create_app(test_config=None):
             return render_template("new_request.html", errors=errors, form=form, **ctx), 400
 
         db = get_db()
+        active = db.execute(
+            "SELECT request_id FROM repair_requests WHERE user_id = ? AND imei = ? AND status = 'Submitted'",
+            (g.user["id"], form["imei"]),
+        ).fetchone()
+        if active:
+            errors["imei"] = f"An active request ({active['request_id']}) already exists for this IMEI."
+            return render_template("new_request.html", errors=errors, form=form, **ctx), 400
         request_id = next_request_id(db)
         db.execute(
             """INSERT INTO repair_requests

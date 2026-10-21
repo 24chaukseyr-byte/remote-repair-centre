@@ -171,7 +171,7 @@ def test_TC19_valid_request_saved_with_id_and_status(client):
 def test_request_ids_increment(client):
     logged_in(client)
     client.post("/request/new", data=request_data())
-    response = client.post("/request/new", data=request_data(), follow_redirects=True)
+    response = client.post("/request/new", data=request_data(imei="123456789012346"), follow_redirects=True)
     assert b"REQ-0002" in response.data
 
 
@@ -272,3 +272,18 @@ def test_regression_logged_in_user_redirected_from_auth_pages(client, path):
     response = client.get(path)
     assert response.status_code == 302
     assert "/dashboard" in response.headers["Location"]
+    
+def test_regression_duplicate_active_imei_rejected(client):
+    logged_in(client)
+    client.post("/request/new", data=request_data())
+    response = client.post("/request/new", data=request_data())
+    assert response.status_code == 400
+    assert b"already exists for this IMEI" in response.data
+
+
+def test_regression_imei_reusable_after_cancel(client):
+    logged_in(client)
+    client.post("/request/new", data=request_data())
+    client.post("/request/REQ-0001/cancel")
+    response = client.post("/request/new", data=request_data(), follow_redirects=True)
+    assert b"REQ-0002" in response.data
